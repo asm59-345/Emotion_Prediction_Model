@@ -6,4 +6,5 @@ numpy>=1.26.0
 h5py>=3.11.0
 sqlalchemy>=2.0.30
 psutil>=6.0.0
+python-multipart>=0.0.9
 pytest>=8.0.0
