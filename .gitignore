@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+.env
+.venv
+venv/
+ENV/
+
+# Testing & Cache
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Database & Persistent Data
+data/*.db
+data/*.sqlite
+data/*.sqlite3
+data/moodline_analytics.db
+
+# IDE & OS
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# VibeCheck & AI internal scratch
+.system_generated/

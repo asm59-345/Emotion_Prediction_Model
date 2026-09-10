@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  moodline-api:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: moodline-pro-api
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - moodline_data:/app/data
+    environment:
+      - ENVIRONMENT=production
+      - RATE_LIMIT_PER_MINUTE=120
+      - DATABASE_URL=sqlite:////app/data/moodline_analytics.db
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health/live')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  moodline_data:
+    driver: local

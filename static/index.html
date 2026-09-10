@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moodline Pro — Emotion & Sentiment Intelligence Platform</title>
+<meta name="description" content="Production-grade BiGRU Emotion & Sentiment Intelligence Platform with Explainability, Voice Dictation, and Analytics.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500;1,9..144,600&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/static/style.css?v=2.2">
+</head>
+<body>
+
+<div class="grain"></div>
+
+<div class="app">
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" id="statusDot" title="checking server..."></span>
+      <span class="brand-name">Moodline <span class="badge-pro">PRO</span></span>
+    </div>
+    <div class="topbar-actions">
+      <button class="nav-btn" id="analyticsToggleBtn" type="button">
+        <span>📊 Analytics & History</span>
+      </button>
+      <a href="/docs" target="_blank" class="nav-btn api-link">
+        <span>⚡ API Docs</span>
+      </a>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Mode Selector Tabs -->
+    <div class="mode-tabs">
+      <button class="tab-btn active" id="tabSingle" data-mode="single" type="button">Sentence & Saliency</button>
+      <button class="tab-btn" id="tabFlow" data-mode="flow" type="button">Paragraph Flow Arc</button>
+      <button class="tab-btn" id="tabUpload" data-mode="upload" type="button">File / CSV Batch</button>
+    </div>
+
+    <!-- Mode 1 & 2: Single and Flow Input -->
+    <section class="console" id="console">
+
+      <div class="orb-stage">
+        <div class="orb-glow" id="orbGlow"></div>
+        <div class="orb" id="orb">
+          <span class="orb-emoji" id="orbEmoji">✎</span>
+        </div>
+      </div>
+
+      <div class="input-panel">
+        <div class="input-header">
+          <span class="eyebrow" id="inputEyebrow">INPUT</span>
+          <button id="micBtn" class="mic-btn" type="button" title="Click to speak (Voice Dictation)">
+            <span class="mic-icon">🎤</span>
+            <span class="mic-status" id="micStatusText">Dictate</span>
+          </button>
+        </div>
+
+        <textarea
+          id="textInput"
+          maxlength="5000"
+          placeholder="Write a sentence and let it speak for itself&#10;— e.g. “I was terrified at first, but then I felt overwhelming joy.”"
+        ></textarea>
+
+        <div class="input-footer">
+          <span class="char-count"><span id="charCount">0</span> / 5000</span>
+          <button id="analyzeBtn" class="btn-primary" type="button" disabled>
+            <span class="btn-label">Read the mood</span>
+            <span class="btn-arrow">→</span>
+          </button>
+        </div>
+
+        <p class="error-msg" id="errorMsg" hidden></p>
+      </div>
+
+    </section>
+
+    <!-- Mode 3: File Upload Panel -->
+    <section class="upload-panel" id="uploadSection" hidden>
+      <div class="dropzone" id="dropzone">
+        <span class="dropzone-icon">📁</span>
+        <h3>Drop CSV, TXT, or JSON file here</h3>
+        <p>Analyze hundreds of customer reviews or sentences simultaneously</p>
+        <input type="file" id="fileInput" accept=".csv,.txt,.json" hidden>
+        <button class="btn-secondary" id="browseFileBtn" type="button">Browse File</button>
+      </div>
+      <div id="uploadResult" class="upload-result" hidden></div>
+    </section>
+
+    <!-- Prediction Results Section -->
+    <section class="result" id="resultSection" hidden>
+
+      <!-- Emotion Reveal Card -->
+      <div class="reveal">
+        <div class="reveal-header">
+          <span class="eyebrow">DETECTED EMOTION</span>
+          <div class="valence-tags">
+            <span class="valence-badge" id="polarityBadge">Positive</span>
+            <span class="intensity-badge" id="intensityBadge">High Intensity</span>
+          </div>
+        </div>
+
+        <div class="reveal-main">
+          <span class="reveal-emoji" id="emotionEmoji">😄</span>
+          <h1 id="emotionWord">Joy</h1>
+        </div>
+
+        <div class="meta-row">
+          <span class="confidence-mono" id="confidenceText">92.4% confidence</span>
+          <span class="latency-tag" id="latencyTag">⚡ 1.2ms</span>
+        </div>
+
+        <!-- Word Saliency / Heatmap -->
+        <div class="saliency-container" id="saliencyContainer">
+          <span class="eyebrow">WORD ATTRIBUTION HEATMAP</span>
+          <div class="heatmap-words" id="heatmapWords"></div>
+        </div>
+
+        <blockquote class="echoed-text" id="echoedText"></blockquote>
+      </div>
+
+      <!-- Probability Breakdown Bars -->
+      <div class="breakdown">
+        <span class="eyebrow">EMOTION PROBABILITY BREAKDOWN</span>
+        <div class="bars" id="barsContainer"></div>
+      </div>
+
+    </section>
+
+    <!-- Paragraph Flow Arc Result Section -->
+    <section class="flow-result" id="flowSection" hidden>
+      <div class="flow-header">
+        <span class="eyebrow">NARRATIVE EMOTIONAL ARC</span>
+        <h2 id="dominantEmotionTitle">Dominant Emotion: Joy</h2>
+      </div>
+      <div class="timeline-container" id="timelineContainer"></div>
+    </section>
+
+  </main>
+
+  <!-- Analytics Drawer Modal -->
+  <div class="modal-backdrop" id="analyticsModal" hidden>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>📊 Analytics & Prediction History</h2>
+        <button class="close-btn" id="closeAnalyticsBtn" type="button">✕</button>
+      </div>
+      
+      <div class="analytics-grid">
+        <div class="stat-card">
+          <span class="stat-label">Total Predictions</span>
+          <span class="stat-value" id="totalPredsVal">0</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Avg Confidence</span>
+          <span class="stat-value" id="avgConfVal">0.0%</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Top Emotion</span>
+          <span class="stat-value" id="topEmotionVal">—</span>
+        </div>
+      </div>
+
+      <div class="history-section">
+        <h3 style="margin-bottom: 0.5rem; font-size: 1rem;">Recent Query Log</h3>
+        <div class="history-table-wrapper">
+          <table class="history-table">
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Sentence</th>
+                <th>Emotion</th>
+                <th>Confidence</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="historyTableBody">
+              <tr><td colspan="5" class="empty-row">No records yet</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footbar">
+    <span id="serverStatusText">connecting to model…</span>
+    <span class="footbar-hint">⌘ / Ctrl + Enter to analyze • SQLite Persistent Engine</span>
+  </footer>
+
+</div>
+
+<script src="/static/script.js?v=2.2"></script>
+</body>
+</html>
