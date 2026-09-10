@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: moodline-pro-api
+    runtime: python
+    buildCommand: pip install -r requirements-prod.txt
+    startCommand: uvicorn src.main_prod:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: ENVIRONMENT
+        value: production
+    healthCheckPath: /health/live
+    autoDeploy: true
