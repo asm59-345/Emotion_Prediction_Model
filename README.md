@@ -1,5 +1,8 @@
 # 🎭 Moodline Pro — Emotion & Sentiment Intelligence Platform
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-moodline--pro.onrender.com-brightgreen?style=for-the-badge&logo=render&logoColor=white)](https://moodline-pro.onrender.com/)
+[![API Docs](https://img.shields.io/badge/Swagger_UI-Docs-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://moodline-pro.onrender.com/docs)
+
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.14-blue.svg)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688.svg)](https://fastapi.tiangolo.com)
 [![Deep Learning](https://img.shields.io/badge/Model-Bidirectional_GRU-orange.svg)](https://keras.io)
@@ -7,6 +10,16 @@
 [![Tests](https://img.shields.io/badge/Tests-14%20Passed%20(100%25)-brightgreen.svg)]()
 
 > An enterprise-grade, high-performance Deep Learning Emotion & Sentiment Intelligence platform powered by a stacked **Bidirectional Gated Recurrent Unit (BiGRU)** neural network, featuring real-time token attribution, narrative paragraph arcs, voice dictation, CSV batch processing, and persistent SQLite analytics.
+
+---
+
+## 🌐 Live Deployment Links
+
+| Resource | URL | Status |
+| :--- | :--- | :--- |
+| **🚀 Production Web App** | [https://moodline-pro.onrender.com/](https://moodline-pro.onrender.com/) | 🟢 **Live** |
+| **⚡ Interactive Swagger API Docs** | [https://moodline-pro.onrender.com/docs](https://moodline-pro.onrender.com/docs) | 🟢 **Live** |
+| **🩺 Health & Telemetry Probe** | [https://moodline-pro.onrender.com/health](https://moodline-pro.onrender.com/health) | 🟢 **Live** |
 
 ---
 
@@ -80,10 +93,10 @@ cd Emotion_Prediction_Model
 
 ### 2. Install Dependencies
 ```bash
-pip install -r requirements-prod.txt
+pip install -r requirements.txt
 ```
 
-### 3. Run Production Server
+### 3. Run Production Server Locally
 ```bash
 python -m uvicorn src.main_prod:app --host 127.0.0.1 --port 8500 --reload
 ```
@@ -107,7 +120,7 @@ python -m uvicorn src.main_prod:app --host 127.0.0.1 --port 8500 --reload
 
 ### Sample Request: Single Prediction with Saliency
 ```bash
-curl -X POST "http://127.0.0.1:8500/api/v1/predict" \
+curl -X POST "https://moodline-pro.onrender.com/api/v1/predict" \
      -H "Content-Type: application/json" \
      -d '{"text": "I am so grateful and overjoyed with this support!", "explain": true}'
 ```
@@ -249,8 +262,10 @@ Emotion_Prediction_Model/
 ├── architecture.md                # System Architecture & Technical Specifications
 ├── prompt.md                      # Prompt Engineering & LLM Integration Guide
 ├── SKILL.md                       # Antigravity/Agent Skill Definition
+├── render.yaml                    # Render Deployment Blueprint
+├── vercel.json                    # Vercel Deployment Configuration
 ├── main.py                        # Original legacy server
-└── requirements-prod.txt
+└── requirements.txt               # All production dependencies
 ```
 
 ---
